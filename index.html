@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+      PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:svg="http://www.w3.org/2000/svg"
+      xmlns:xlink="http://www.w3.org/1999/xlink">
+
+	<head>
+
+    <title>Test Page for python <--> JS interaction</title>    
+        
+	    <script type="text/javascript">
+
+			function NoArgsFunc(func)	{ // Call functon with no args
+
+				var uri='clbk://'+func;	
+				location.href=uri;
+				//console.log(uri);
+				}
+
+			function SomeArgsFunc()	{ // Call function with especific args 
+
+				var i;
+			    	var args = [];
+
+			    	for (i = 0; i < arguments.length; i++) {		
+					args = args+arguments[i]+'%';		
+				}
+				
+				args = args.slice(0, -1);
+
+				var uri='clbk://'+args;
+				
+				location.href=uri;
+				//console.log(uri);
+				}
+
+			function MyArgsFun(func, input)	{ // Call function with user inserted args 
+
+				var argString = document.getElementById(input).value;	
+
+				nargString = argString.replace(/ /g,'');
+				args = nargString.replace(/,/g, '%');		
+				
+				var uri='clbk://'+func+'%'+args;
+				
+				location.href=uri;
+				//console.log(uri);
+				}
+
+		</script>
+
+	</head>
+
+	<body>
+
+	    <h1>Python3 + GTK3 + WebKit2 GUI Demo</h1>
+
+	    <p> This demo shows how js can trigger python backend functions (tree first functions), and how a python backend function can change the webpage by execution of js </p>
+
+	    <div id="conteudo">
+		
+			Function with no args: <input type="button" value="function 1" onClick="NoArgsFunc('no_args_test');"><br>
+
+			Sending Args : <input type="button" value="function 2" onClick="SomeArgsFunc('with_args_test','Marie','Martin');"><br>		
+		
+			Sending Args by text field: (separate by commas) <input type="text" id="args">	
+			<input type="button" value="function 3" onClick="MyArgsFun('with_args_test', 'args');"><br>
+		
+			Return the content od this file directory: <input type="button" value="python->js" onClick="NoArgsFunc('list_directory');">
+			
+		</div>
+
+		<div id="return">
+		</div>	
+	
+	</body>
+
+</html>
